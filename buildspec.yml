@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9  # optional, only if you need Python
+    commands:
+      - echo "Installing dependencies..."
+      - pip install --upgrade awscli  # ensure latest AWS CLI
+  pre_build:
+    commands:
+      - echo "Starting pre-build phase..."
+      - echo "Checking AWS CLI version"
+      - aws --version
+  build:
+    commands:
+      - echo "Build phase - no compilation needed for static site"
+  post_build:
+    commands:
+      - echo "Deploying website to S3 bucket..."
+      # Replace '.' with your folder if your website is in a subfolder
+      - aws s3 sync . s3://photograph-gallery --delete
+      - echo "Deployment complete!"
+
+artifacts:
+  files:
+    - '**/*'
