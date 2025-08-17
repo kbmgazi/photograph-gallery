@@ -16,12 +16,11 @@ phases:
     commands:
       - echo "Build phase - no compilation needed for static site"
   post_build:
-    commands:
-      - echo "Deploying website to S3 bucket..."
-      # Replace '.' with your folder if your website is in a subfolder
-      - aws s3 sync . s3://photograph-gallery --delete
-      - echo "Deployment complete!"
+  commands:
+    - echo "Zipping build artifacts..."
+    - zip -r static-website.zip * -x ".git/*" "buildspec.yml"
 
 artifacts:
   files:
     - '**/*'
+
