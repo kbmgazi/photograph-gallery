@@ -13,16 +13,10 @@ phases:
       - ls -R
   build:
     commands:
-      - echo "Build phase - preparing static site package"
-      - mkdir -p build
-      - cp -r * build/
-      - echo "Static site copied to build/ folder"
+      - echo "Build phase - zipping static website files"
+      - zip -r static-website.zip . -x "*.git*" "buildspec.yml"
   post_build:
     commands:
-      - echo "Packaging artifacts for CodeDeploy..."
-      - cd build
-      - zip -r ../static-website.zip . -x "*.git*" "buildspec.yml"
-      - cd ..
       - echo "Build completed. Artifacts ready for CodeDeploy."
 
 artifacts:
