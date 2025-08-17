@@ -3,24 +3,30 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.9  # optional, only if you need Python
+      python: 3.9
     commands:
       - echo "Installing dependencies..."
-      - pip install --upgrade awscli  # ensure latest AWS CLI
+      - pip install --upgrade awscli
   pre_build:
     commands:
-      - echo "Starting pre-build phase..."
-      - echo "Checking AWS CLI version"
-      - aws --version
+      - echo "Pre-build phase started..."
+      - ls -R
   build:
     commands:
-      - echo "Build phase - no compilation needed for static site"
+      - echo "Build phase - preparing static site package"
+      - mkdir -p build
+      - cp -r * build/
+      - echo "Static site copied to build/ folder"
   post_build:
-  commands:
-    - echo "Zipping build artifacts..."
-    - zip -r static-website.zip * -x ".git/*" "buildspec.yml"
+    commands:
+      - echo "Packaging artifacts for CodeDeploy..."
+      - cd build
+      - zip -r ../static-website.zip . -x "*.git*" "buildspec.yml"
+      - cd ..
+      - echo "Build completed. Artifacts ready for CodeDeploy."
 
 artifacts:
   files:
-    - '**/*'
-
+    - static-website.zip
+    - appspec.yml
+  discard-paths: yes
