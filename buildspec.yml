@@ -7,18 +7,16 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install --upgrade awscli
+
   pre_build:
     commands:
       - echo "Pre-build phase started..."
       - ls -R
+
   build:
     commands:
-      - echo "Build phase - deploying to S3..."
-      - aws s3 sync . s3://photograph-gallery \
-          --delete \
-          --exclude "*.git*" \
-          --exclude "buildspec.yml" \
-          --exact-timestamps
+      - echo "Build phase - deploying static website to S3..."
+      - aws s3 sync . s3://photograph-gallery --delete --exclude "*.git*" --exclude "buildspec.yml" --exact-timestamps
 
 artifacts:
   files:
