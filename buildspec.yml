@@ -20,12 +20,4 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: build
-  discard-paths: yes
-  name: input-build-arti
-
-cache:
-  paths:
-    - '/root/.cache/pip/**/*'
-
+    - '**/*
