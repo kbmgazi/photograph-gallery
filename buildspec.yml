@@ -15,9 +15,19 @@ phases:
 
   build:
     commands:
-      - echo "Build phase - deploying static website to S3..."
-      - aws s3 sync . s3://photograph-gallery --delete --exclude ".git/*" --exclude "buildspec.yml" --exact-timestamps
+      - echo "Build phase - copying files to build folder..."
+      - mkdir -p build
+      - cp -r * build/
+      - echo "Deploying static website to S3..."
+      - aws s3 sync build/ s3://photograph-gallery --delete --exclude ".git/*" --exclude "buildspec.yml" --exact-timestamps
 
 artifacts:
   files:
     - '**/*'
+  base-directory: build
+  discard-paths: yes
+  name: input-build-arti
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
