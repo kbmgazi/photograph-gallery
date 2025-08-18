@@ -3,22 +3,33 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.9
+      nodejs: 18   # adjust if needed; remove if plain HTML/CSS
     commands:
-      - echo "Installing dependencies..."
-      - pip install --upgrade awscli
+      - echo "Installing dependencies (if any)..."
+      # - npm install   # only if you have package.json
 
   pre_build:
     commands:
       - echo "Pre-build phase started..."
-      - ls -R
+      - echo "Source code pulled from GitHub."
 
   build:
     commands:
-      - echo "No direct deploy here; just prep files if needed"
+      - echo "Build phase started..."
+      # If you have a frontend framework build step, add it here.
+      # For plain static HTML/CSS/JS, no build step is needed.
+      # Example: npm run build
 
+  post_build:
+    commands:
+      - echo "Post-build phase..."
+      - echo "Uploading artifacts to artifact bucket..."
+      - aws s3 sync . s3://artifact-photograph-gallery/input-build-arti --delete --exact-timestamps
+      - echo "Deploying static website to hosting bucket..."
+      - aws s3 sync . s3://photograph-gallery --delete --exact-timestamps
 
 artifacts:
   files:
     - '**/*'
-
+  name: PhotographGalleryBuild
+  discard-paths: no
