@@ -1,20 +1,7 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "Nothing to install for static site"
   build:
     commands:
-      - echo "Building static site..."
-      - mkdir -p build
-      - cp -r ./* build/
-  post_build:
-    commands:
-      - echo "Deploying to S3 bucket: photograph-gallery"
-      - aws s3 sync build/ s3://photograph-gallery --delete
-
-artifacts:
-  files:
-    - '**/*'
-  base-directory: build
+      - echo "Deploying static site to S3..."
+      - aws s3 sync . s3://photograph-gallery --delete --exclude ".git/*" --exclude "buildspec.yml"
