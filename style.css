@@ -1,19 +1,170 @@
-*{box-sizing:border-box}
-:root{--bg:#f8f9fb;--fg:#111;--muted:#666;--card:#fff;--border:#e5e7eb}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans',sans-serif}
-.site-header{max-width:1100px;margin:32px auto 8px;padding:0 16px;text-align:center}
-.site-header h1{margin:0 0 6px;font-weight:700;letter-spacing:.2px}
-.tagline{margin:0;color:var(--muted)}
-.tabs{display:flex;gap:12px;justify-content:center;margin:16px 0 8px;flex-wrap:wrap}
-.tabs a{text-decoration:none;color:var(--fg);border:1px solid var(--border);padding:8px 12px;border-radius:999px;background:var(--card)}
-.tabs a:hover{transform:translateY(-1px);transition:.15s ease-in-out;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.container{max-width:1100px;margin:0 auto;padding:16px}
-section{margin:28px 0}
-section h2{font-size:1.25rem;margin:0 0 12px;border-bottom:1px solid var(--border);padding-bottom:8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.03)}
-.card figure{position:relative;display:block}
-.card img{display:block;width:100%;height:180px;object-fit:cover}
-.caption{padding:10px 12px;color:var(--muted);font-size:.9rem}
-.site-footer{max-width:1100px;margin:20px auto 40px;padding:0 16px;color:var(--muted);text-align:center}
-@media (min-width:1200px){.card img{height:200px}}
+/* Global reset & box sizing */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Root colors for easy customization */
+:root {
+  --bg: #fdf6f0;
+  --fg: #111;
+  --muted: #555;
+  --card: #fff;
+  --border: #e5e7eb;
+  --accent: #ff7f50; /* subtle coral accent for highlights */
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+/* Base typography */
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+}
+
+/* Header */
+.site-header {
+  max-width: 1100px;
+  margin: 40px auto 16px;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.site-header h1 {
+  margin-bottom: 6px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-size: 2rem;
+  background: linear-gradient(90deg, var(--accent), #f4a261);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+/* Tabs navigation */
+.tabs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0 12px;
+  flex-wrap: wrap;
+}
+
+.tabs a {
+  text-decoration: none;
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--card);
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.tabs a:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 4px 15px var(--shadow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Main container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+section {
+  margin: 32px 0;
+}
+
+section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 10px;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Card styling */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+/* Card image */
+.card figure {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover img {
+  transform: scale(1.08);
+}
+
+/* Caption */
+.caption {
+  padding: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+  font-style: italic;
+  transition: color 0.3s ease;
+}
+
+.card:hover .caption {
+  color: var(--accent);
+}
+
+/* Description paragraph for Art section */
+.description {
+  font-size: 1rem;
+  margin-bottom: 16px;
+  color: var(--fg);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Footer */
+.site-footer {
+  max-width: 1100px;
+  margin: 40px auto 60px;
+  padding: 0 16px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1200px) {
+  .card img { height: 220px; }
+}
