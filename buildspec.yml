@@ -3,33 +3,39 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18   # adjust if needed; remove if plain HTML/CSS
+      nodejs: 18   # not used for static HTML, but keeps environment updated
     commands:
-      - echo "Installing dependencies (if any)..."
-      # - npm install   # only if you have package.json
-
+      - echo "Installing dependencies (none required for static website)..."
+  
   pre_build:
     commands:
       - echo "Pre-build phase started..."
-      - echo "Source code pulled from GitHub."
+      - aws --version
 
   build:
     commands:
       - echo "Build phase started..."
-      # If you have a frontend framework build step, add it here.
-      # For plain static HTML/CSS/JS, no build step is needed.
-      # Example: npm run build
+      - echo "No build step required for static website."
 
   post_build:
     commands:
-      - echo "Post-build phase..."
-      - echo "Uploading artifacts to artifact bucket..."
-      - aws s3 sync . s3://artifact-photograph-gallery/input-build-arti --delete --exact-timestamps
+      - echo "Post-build phase started..."
+      - echo "Syncing build output to artifact bucket..."
+      - aws s3 sync . s3://artifact-photograph-gallery/input-build-arti/ --delete --exact-timestamps
       - echo "Deploying static website to hosting bucket..."
-      - aws s3 sync . s3://photograph-gallery --delete --exact-timestamps
+      - aws s3 sync . s3://photograph-gallery/ --delete --exact-timestamps
+      - echo "Build and deployment completed successfully!"
 
 artifacts:
   files:
     - '**/*'
   name: PhotographGalleryBuild
   discard-paths: no
+
+logs:
+  cloudwatch:
+    group_name: "aws/CodeBuild/PhotographGallery"
+    stream_name: "build-log"
+  s3:
+    bucket: artifact-photograph-gallery
+    prefix: logs
