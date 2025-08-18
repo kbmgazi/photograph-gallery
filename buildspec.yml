@@ -2,40 +2,24 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 18   # not used for static HTML, but keeps environment updated
     commands:
-      - echo "Installing dependencies (none required for static website)..."
-  
+      - echo "Install phase - nothing to install for static site"
   pre_build:
     commands:
-      - echo "Pre-build phase started..."
+      - echo "Starting pre-build..."
       - aws --version
-
   build:
     commands:
-      - echo "Build phase started..."
-      - echo "No build step required for static website."
-
+      - echo "Build phase - preparing static site files"
+      - mkdir build
+      - cp -r * build/
   post_build:
     commands:
-      - echo "Post-build phase started..."
-      - echo "Syncing build output to artifact bucket..."
-      - aws s3 sync . s3://artifact-photograph-gallery/input-build-arti/ --delete --exact-timestamps
-      - echo "Deploying static website to hosting bucket..."
-      - aws s3 sync . s3://photograph-gallery/ --delete --exact-timestamps
-      - echo "Build and deployment completed successfully!"
-
+      - echo "Post-build - deploying to S3 static website bucket"
+      # replace 'my-static-site-bucket' with your actual static hosting bucket
+      - aws s3 sync build/ s3://my-static-site-bucket --delete --exact-timestamps
 artifacts:
   files:
     - '**/*'
-  name: PhotographGalleryBuild
+  base-directory: build
   discard-paths: no
-
-logs:
-  cloudwatch:
-    group_name: "aws/CodeBuild/PhotographGallery"
-    stream_name: "build-log"
-  s3:
-    bucket: artifact-photograph-gallery
-    prefix: logs
