@@ -16,9 +16,8 @@ phases:
   build:
     commands:
       - echo "Build phase - deploying static website to S3..."
-      - aws s3 sync s3://photograph-gallery --delete --exclude "*.git*" --exclude "buildspec.yml" --exact-timestamps
+      - aws s3 sync . s3://photograph-gallery --delete --exclude ".git/*" --exclude "buildspec.yml" --exact-timestamps
 
 artifacts:
   files:
     - '**/*'
-
