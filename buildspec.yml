@@ -3,23 +3,18 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Install phase - nothing to install for static site"
-  pre_build:
-    commands:
-      - echo "Starting pre-build..."
-      - aws --version
+      - echo "Nothing to install for static site"
   build:
     commands:
-      - echo "Build phase - preparing static site files"
-      - mkdir build
-      - cp -r * build/
+      - echo "Building static site..."
+      - mkdir -p build
+      - cp -r ./* build/
   post_build:
     commands:
-      - echo "Post-build - deploying to S3 static website bucket"
-      # replace 'my-static-site-bucket' with your actual static hosting bucket
-      - aws s3 sync build/ s3://my-static-site-bucket --delete --exact-timestamps
+      - echo "Deploying to S3 bucket: photograph-gallery"
+      - aws s3 sync build/ s3://photograph-gallery --delete
+
 artifacts:
   files:
     - '**/*'
   base-directory: build
-  discard-paths: no
